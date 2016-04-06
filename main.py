@@ -66,6 +66,7 @@ def main():
             cv2.waitKey(0)
             cv2.destroyAllWindows()
             exit()
+            
     #cv2.imshow("Detected Face and Eyes", resized_img)
     
 #     cv2.imshow("Detected Eye Corners", resized_img)
