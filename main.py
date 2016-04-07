@@ -28,8 +28,8 @@ def main():
 #     detect face
     face_cascade = cv2.CascadeClassifier('haar_models/haarcascade_frontalface_default.xml')
     #face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-    #eye_cascade = cv2.CascadeClassifier('haar_models/haarcascade_eye.xml')
-    eye_cascade = cv2.CascadeClassifier('parojos.xml')
+    eye_cascade = cv2.CascadeClassifier('haar_models/haarcascade_eye.xml')
+    #eye_cascade = cv2.CascadeClassifier('parojos.xml')
     mouth_cascade = cv2.CascadeClassifier('Mouth.xml')
     nose_cascade = cv2.CascadeClassifier('Nariz.xml')
     nose_cascade2 = cv2.CascadeClassifier('Nariz_nuevo_20stages.xml')
