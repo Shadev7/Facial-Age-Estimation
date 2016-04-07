@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import cv2
+from collections import namedtuple
 
 from FaceDetector import FaceDetector
 
@@ -12,6 +13,10 @@ def main():
     #print "input image shape: ", input_img.shape
     aspect_ratio = 1.0 * width / height
     #print "input image aspect_ratio: ", aspect_ratio
+
+    #FaceStruct = namedtuple("FaceStruct", "ex1 en1 ex2 en2 ch1 ch2 a11 al2")
+    FaceAttrib = namedtuple("FaceAttrib", "n en ex ch al") #as per the face annotation diagram
+    
     
 #     resize image
     new_width = 400
@@ -22,10 +27,12 @@ def main():
  
 #     detect face
     face_cascade = cv2.CascadeClassifier('haar_models/haarcascade_frontalface_default.xml')
-    #face_cascade = cv2.CascadeClassifier('haar_models/haarcascade_frontalface_alt.xml')
-    eye_cascade = cv2.CascadeClassifier('haar_models/haarcascade_eye.xml')
+    #face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+    #eye_cascade = cv2.CascadeClassifier('haar_models/haarcascade_eye.xml')
+    eye_cascade = cv2.CascadeClassifier('parojos.xml')
     mouth_cascade = cv2.CascadeClassifier('Mouth.xml')
     nose_cascade = cv2.CascadeClassifier('Nariz.xml')
+    nose_cascade2 = cv2.CascadeClassifier('Nariz_nuevo_20stages.xml')
     
     gray = cv2.cvtColor(resized_img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(
@@ -48,6 +55,13 @@ def main():
             flags=cv2.cv.CV_HAAR_SCALE_IMAGE
         )
         i=0
+        '''FaceAttrib.ex = (eyes[0][0] + eyes[0][2]) - eyes[1][0] # distance between eyes extreme ends x-cord
+        FaceAttrib.en =  eyes[0][0] - (eyes[1][0] + eyes[1][2]) # distance between eyes near ends x-cord
+        FaceAttrib.n =  eyes[0][0] + FaceAttrib.ex/2 #point between eyes y-cord
+        print "ex : ", FaceAttrib.ex
+        print  "en : ", FaceAttrib.en
+        print "Orbital width index :", str(FaceAttrib.ex/FaceAttrib.en)
+        print  "n : ", FaceAttrib.n'''
         for (ex, ey, ew, eh) in eyes:
             cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
             print "rect: ", ex, ey
@@ -92,16 +106,27 @@ def main():
 #             cv2.imshow("Detected Eye Corners"+str(i), roi_gray2)
             i=i+1
             n_y = ny + nh +nh
-            #detect corner of nose
-            '''dst = cv2.cornerHarris(roi_gray2,2,3,0.04)
-            dst = cv2.dilate(dst, None)
-            print dst.shape
-            p = dst > 0.01*dst.max()
-            roi_color[ex,ey] = [0, 0, 255]
-            for i in range(dst.shape[0]):
-                for j in range(dst.shape[1]):
-                    if(dst[i,j] > 0.01*dst.max()):
-                        cv2.circle(roi_color, (ex+i, ey+j), 2, (0, 255, 0), 1)'''
+
+#     detect nose2 
+        nose = nose_cascade2.detectMultiScale(
+            roi_gray,
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(30, 30),
+            flags=cv2.cv.CV_HAAR_SCALE_IMAGE
+        )
+        i=0
+        #n_x = 0
+        n_y = 0
+        for (nx, ny, nw, nh) in nose:
+            cv2.rectangle(roi_color, (nx, ny), (nx + nw, ny + nh), (0, 100, 100), 2)
+            #print "rect: ", ex, ey
+            print "w,h: ", nw, nh
+            roi_gray2 = roi_gray[ny:ny + nh, nx:nx + nw]
+#             cv2.imshow("Detected Eye Corners"+str(i), roi_gray2)
+            i=i+1
+            n_y = ny + nh +nh
+
 #     detect mouth
         roi_gray_m = gray[n_y:y + h, x:x + w]
         roi_color_m = resized_img[n_y:y + h, x:x + w]
