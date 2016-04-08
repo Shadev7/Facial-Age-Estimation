@@ -4,10 +4,12 @@ import cv2
 from collections import namedtuple
 
 from FaceDetector import FaceDetector
+from CustomFilter import create_eye_left_filter
 
 def main():
 #     input image
-    img_name = "test-images/face.png"
+    img_name = "face1.png"
+    #img_name = "face1.png"
     #img_name = "data/28754132@N06/landmark_aligned_face.608.9691370454_849ce3fb06_o.jpg"
     input_img = cv2.imread(img_name)
     height, width, channels = input_img.shape
@@ -15,7 +17,6 @@ def main():
     aspect_ratio = 1.0 * width / height
     #print "input image aspect_ratio: ", aspect_ratio
 
-    #FaceStruct = namedtuple("FaceStruct", "ex1 en1 ex2 en2 ch1 ch2 a11 al2")
     FaceAttrib = namedtuple("FaceAttrib", "n en ex ch al") #as per the face annotation diagram
     
     
@@ -32,7 +33,7 @@ def main():
     eye_cascade = cv2.CascadeClassifier('haar_models/haarcascade_eye.xml')
     mouth_cascade = cv2.CascadeClassifier('haar-models/Mouth.xml')
     nose_cascade = cv2.CascadeClassifier('haar-models/Nariz.xml')
-    #eye_cascade = cv2.CascadeClassifier('parojos.xml')
+    #eye_cascade = cv2.CascadeClassifier('parojosG.xml')
     nose_cascade2 = cv2.CascadeClassifier('haar-models/Nariz_nuevo_20stages.xml')
     
     gray = cv2.cvtColor(resized_img, cv2.COLOR_BGR2GRAY)
@@ -56,36 +57,47 @@ def main():
             flags=cv2.cv.CV_HAAR_SCALE_IMAGE
         )
         i=0
-        '''FaceAttrib.ex = (eyes[0][0] + eyes[0][2]) - eyes[1][0] # distance between eyes extreme ends x-cord
+        FaceAttrib.ex = (eyes[0][0] + eyes[0][2]) - eyes[1][0] # distance between eyes extreme ends x-cord
         FaceAttrib.en =  eyes[0][0] - (eyes[1][0] + eyes[1][2]) # distance between eyes near ends x-cord
         FaceAttrib.n =  eyes[0][0] + FaceAttrib.ex/2 #point between eyes y-cord
         print "ex : ", FaceAttrib.ex
         print  "en : ", FaceAttrib.en
         print "Orbital width index :", str(FaceAttrib.ex/FaceAttrib.en)
-        print  "n : ", FaceAttrib.n'''
+        print  "n : ", FaceAttrib.n
         for (ex, ey, ew, eh) in eyes:
             cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
-            print "rect: ", ex, ey
-	    print "w,h: ", ew, eh
-            roi_gray2 = roi_gray[ey:ey + eh, ex:ex + ew]
-#             cv2.imshow("Detected Eye Corners"+str(i), roi_gray2)
-            i=i+1
-            #detect corner of eyes
-            dst = cv2.cornerHarris(roi_gray2,2,3,0.04)
-            temp = cv2.canny(
-            dst = cv2.dilate(dst, None)
-            print dst.shape
-            p = dst * 255 / (dst.max())
-            cv2.imshow("test", p)
+            roi_eye_gray = roi_gray[ey:ey + eh, ex:ex + ew]
+            smoothed = cv2.GaussianBlur(roi_eye_gray, (3,3), 30)
+            cannied = cv2.Canny(smoothed, 50,100 )
+            gftt = cv2.goodFeaturesToTrack (roi_eye_gray, 20, 0.01,10)
+
+	    #cv2.imshow("GFTT", gftt)
+            #cv2.imshow("Canny", cannied)
+	    p = gftt > 0.01*gftt.max()
             roi_color[ex,ey] = [0, 0, 255]
-            for i in range(dst.shape[0]):
-                for j in range(dst.shape[1]):
-                    if(dst[i,j] > 0.05*dst.max()):
-                        cv2.circle(roi_color, (ex+j, ey+i), 2, (0, 255, 0), 1)
-            
-            #cv2.imshow("Detected Eye Corners", resized_img)
-            cv2.waitKey(0)
-            #cv2.destroyAllWindows()
+	    for i in gftt:
+	        #print (i[0][0])
+		cv2.circle(roi_color, (ex+ int(i[0][0]), ey+int(i[0][1])), 2, (0, 255, 255), 1)
+            '''for i in range(gftt.shape[0]):
+                for j in range(gftt.shape[1]):
+		    print "gftt"
+		    print gftt[i,j]
+		    cv2.circle(roi_color, (ex+i, ey+j), 2, (0, 255, 0), 1)
+                    if(gftt[i,j] > 0.01*gftt.max()):
+                        cv2.circle(roi_color, (ex+i, ey+j), 2, (0, 255, 0), 1)'''
+
+            temp_kernel = np.ones((3,3), np.uint8)
+            dilated = cv2.dilate(cannied, temp_kernel, iterations=1)
+            cv2.imshow("processed", cv2.erode(dilated, temp_kernel, iterations=1))
+            #filt = create_eye_left_filter(100)
+            for i in range(2,15):
+                res = cv2.filter2D(dilated, cv2.CV_32F, create_eye_left_filter(i))
+                #cv2.imshow(str(i), res)
+            print "Min:", res.min(), "| Max:", res.max()
+            res = (res - res.min()) * (255 / (res.max() - res.min()))
+            print "Min:", res.min(), "| Max:", res.max()
+            print res
+            #cv2.waitKey(0)
             #exit()
 
 
@@ -140,14 +152,12 @@ def main():
             minSize=(30, 30),
             flags=cv2.cv.CV_HAAR_SCALE_IMAGE
         )
-        i=0
         for (mx, my, mw, mh) in mouth:
             cv2.rectangle(roi_color_m, (mx, my), (mx + mw, my + mh), (100, 100, 0), 2)
             #print "rect: ", ex, ey
 	    #print "w,h: ", ew, eh
             roi_gray2 = roi_gray_m[my:my + mh, mx:mx + mw]
 #             cv2.imshow("Detected Eye Corners"+str(i), roi_gray2)
-            i=i+1
             #detect corner of mouth
             '''dst = cv2.cornerHarris(roi_gray2,2,3,0.04)
             dst = cv2.dilate(dst, None)
