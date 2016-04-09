@@ -6,8 +6,11 @@ import cv2
 
 img = io.imread(sys.argv[1])
 f = FaceLandmarkDetector('./shape_predictor_68_face_landmarks.dat')
-shape, feature_dict, ratios = f.detect(img)[0]
-print(ratios)
+fd = f.detect(img)[0]
+shape = fd.shape
+feature_dict = fd.shape_dict
+ratios = fd.ratios
+#print(ratios)
 
 #print(feature_dict["jaw_points"][0][0])
 cv2.circle(img, feature_dict["nose"][0], 4 , (255,0,0), 3)
@@ -22,6 +25,13 @@ third_eye_y = feature_dict["left_brow"][0][1] + feature_dict["right_brow"][-1][1
          feature_dict["left_brow"][-1][1] + feature_dict["right_brow"][0][1]
 
 cv2.circle(img, (third_eye_x/4 ,third_eye_y/4), 4 , (0,0,255), 3)
+cv2.circle(img, feature_dict["left_eye"][0], 4 , (255,0,255), 3)
+cv2.circle(img, feature_dict["left_eye"][3], 4 , (255,0,255), 3)
+cv2.circle(img, feature_dict["right_eye"][0], 4 , (255,0,255), 3)
+cv2.circle(img, feature_dict["right_eye"][3], 4 , (255,0,255), 3)
+cv2.circle(img, feature_dict["right_eye"][3], 4 , (255,0,255), 3)
+cv2.circle(img, feature_dict["lips"][0], 4 , (140,200,0), 3)
+cv2.circle(img, feature_dict["lips"][6], 4 , (140,200,0), 3)
 
 cv2.imshow("part 0", img)
 cv2.waitKey(0)
