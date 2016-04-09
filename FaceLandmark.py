@@ -9,11 +9,13 @@ class FaceLandmarkDetector(object):
 
     def detect(self, image):
         detections = self.detector(image, 1)
+        result = []
         for k,d in enumerate(detections):
             shape = self.predictor(image, d)
             feature_dict = self.parseShape(shape)
             ratios = self.calculate_ratios(feature_dict)
-            return shape, feature_dict, ratios
+            result.append((shape, feature_dict, ratios))
+        return result
 
     def parseShape(self, shape):
         ranges = [range(0,17), range(17,22), range(22,27), range(28,31),

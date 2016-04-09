@@ -6,7 +6,7 @@ import cv2
 
 img = io.imread(sys.argv[1])
 f = FaceLandmarkDetector('./shape_predictor_68_face_landmarks.dat')
-shape, feature_dict, ratios = f.detect(img)
+shape, feature_dict, ratios = f.detect(img)[0]
 print(ratios)
 
 #print(feature_dict["jaw_points"][0][0])
