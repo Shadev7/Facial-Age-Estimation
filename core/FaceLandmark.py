@@ -14,11 +14,8 @@ class FaceLandmarkDetector(object):
             shape = self.predictor(image, d)
             feature_dict = self.parseShape(shape)
             ratios = self.calculate_ratios(feature_dict)
-            # result.append((shape, feature_dict, ratios))
-            result.append(shape)
-            result.append(feature_dict)
-            result.append(ratios)
-        return result
+            yield FacialFeatures(ratios=ratios, feature_points=feature_dict,
+                    all_points=shape)
 
     def parseShape(self, shape):
         ranges = [range(0,17), range(17,22), range(22,27), range(28,31),
