@@ -14,7 +14,10 @@ class FaceLandmarkDetector(object):
             shape = self.predictor(image, d)
             feature_dict = self.parseShape(shape)
             ratios = self.calculate_ratios(feature_dict)
-            result.append((shape, feature_dict, ratios))
+            # result.append((shape, feature_dict, ratios))
+            result.append(shape)
+            result.append(feature_dict)
+            result.append(ratios)
         return result
 
     def parseShape(self, shape):
@@ -57,5 +60,5 @@ class FaceLandmarkDetector(object):
 
     	den = (feature_dict[den_f1][den_i1][0] - feature_dict[den_f2][den_i2][0]) ** 2 \
     			+ (feature_dict[den_f1][den_i1][1] - feature_dict[den_f2][den_i2][1]) ** 2
-        print("num , den : ", num, den)
+        # print("num , den : ", num, den)
     	return math.sqrt(num * 1.0 / den)
