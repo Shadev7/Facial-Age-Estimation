@@ -2,6 +2,8 @@ import dlib
 from skimage import io
 import math
 
+from core.model import FacialFeatures
+
 class FaceLandmarkDetector(object):
     def __init__(self, path):
         self.detector = dlib.get_frontal_face_detector()
@@ -9,7 +11,6 @@ class FaceLandmarkDetector(object):
 
     def detect(self, image):
         detections = self.detector(image, 1)
-        result = []
         for k,d in enumerate(detections):
             shape = self.predictor(image, d)
             feature_dict = self.parseShape(shape)
@@ -57,5 +58,4 @@ class FaceLandmarkDetector(object):
 
     	den = (feature_dict[den_f1][den_i1][0] - feature_dict[den_f2][den_i2][0]) ** 2 \
     			+ (feature_dict[den_f1][den_i1][1] - feature_dict[den_f2][den_i2][1]) ** 2
-        # print("num , den : ", num, den)
     	return math.sqrt(num * 1.0 / den)
