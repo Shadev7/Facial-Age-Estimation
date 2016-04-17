@@ -1,3 +1,6 @@
 [submodule "dlib"]
 	path = dlib
 	url = https://github.com/davisking/dlib.git
+[submodule "python-neural-network"]
+	path = python-neural-network
+	url = https://github.com/jorgenkg/python-neural-network.git
