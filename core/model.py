@@ -22,6 +22,7 @@ class FacialFeatures(object):
         self.feature_points = kwargs.pop('feature_points', None)
         self.others = kwargs
 
+    
     def __repr__(self):
         return "%s: %s"%(self.__class__.__name__, self.ratios)
 
