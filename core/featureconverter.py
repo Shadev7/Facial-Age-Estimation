@@ -31,8 +31,9 @@ class FaceLandmarkFeatureConverter(GenericFeatureConverter, CacheMixin):
     age_categories = [(x, x+4) for x in range(0, 100, 5)]
     age_categories = [(0,10), (11, 100)]
 
-    n_inputs = 7
+    n_inputs = 1
     n_outputs = len(age_categories)
+    n_outpus = 1
     fl = FaceLandmarkDetector(config.facelandmarkdetector_path)
 
     params = ("facial_ind mandibular_ind intercanthal_ind orbital_width_ind " + 
@@ -46,12 +47,14 @@ class FaceLandmarkFeatureConverter(GenericFeatureConverter, CacheMixin):
                     lambda x: list(self.fl.detect(io.imread(x)))[0].ratios,
                     meta.path,
                     [meta.path])
+            return [facial_feature["facial_ind"]], [meta.age]
             age_group = [int(x[0]<=meta.age<=x[1]) for x in self.age_categories]
             res = ([math.log(facial_feature[x]) for x in self.params], age_group)
             print "Converted:", meta.path,
             print "%d features => %s"%(len(res[0]), str(age_group))
             return res
         except Exception, e:
+            #print e
             print>>sys.stderr, "Unable to use: " + meta.path
             return None
 

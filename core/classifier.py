@@ -1,4 +1,6 @@
+import pickle
 import numpy as np
+from sklearn.neural_network import MLPClassifier
 
 from activation_functions import sigmoid_function, tanh_function, linear_function
 from cost_functions import sum_squared_error, exponential_cost
@@ -7,8 +9,28 @@ from neuralnet import NeuralNet
 from tools import Instance
 
 import config
+from utils import max_index
 
-class NeuralNetClassifier(object):
+class ScikitNeuralNetClassifier(object):
+    def __init__(self, nodes):
+        self.neuralnet = MLPClassifier(
+                hidden_layer_sizes=nodes[1:-1],
+                activation='relu',
+                tol=1e-100,
+                learning_rate='adaptive',
+                max_iter=config.neuralnet_maxiterations,
+                learning_rate_init=config.neuralnet_learningrate,
+                verbose=True)
+
+    def train(self, data):
+        self.neuralnet.fit([d[0] for d in data], [d[1][0] for d in data])
+        with open(config.neuralnet_save_path, "w") as f:
+            pickle.dump(self.neuralnet, f)
+
+    def test(self, data):
+        return self.neuralnet.predict([d[0] for d in data])
+
+class JorkengjNeuralNetClassifier(object):
     def __init__(self, nodes):
         settings = {
             "cost_function": {
@@ -51,7 +73,6 @@ class NeuralNetClassifier(object):
         
         n_output = self.neuralnet.layers[-1][0]
         confusion_matrix = [[0]*n_output for _ in range(n_output)]
-        max_index = lambda x: max(enumerate(x), key=lambda y: y[1])[0]
         for result, target in zip(out, test_targets):
             confusion_matrix[max_index(target)][max_index(result)] += 1
         print "Confusion Matrix:"
@@ -67,3 +88,4 @@ class NeuralNetClassifier(object):
                 print>>f, "%s\t%s\t%s" % tuple(map(str, [entry, result, target]))
 
 
+NeuralNetClassifier = ScikitNeuralNetClassifier
