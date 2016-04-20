@@ -1,4 +1,5 @@
 from enum import Enum
+import sys
 
 Gender = Enum("Gender", "M F")
 
@@ -8,10 +9,13 @@ class FaceMetadata(object):
     """
     def __init__(self, path, **kwargs):
         self.path = path
-        self.age = int(kwargs.pop('Age'))
-        self.gender = getattr(Gender, kwargs.pop('Gender'))
-        self.position = kwargs.pop('Position', None)
-        self.others = kwargs
+        try:
+            self.age = int(kwargs.pop('Age'))
+            self.gender = getattr(Gender, kwargs.pop('Gender'))
+            self.position = kwargs.pop('Position', None)
+            self.others = kwargs
+        except Exception, e:
+            print>>sys.stderr, "Unable to use:", path, e
 
     def __repr__(self):
         return "Face [%s] (%d, %s)"%(self.path, self.age, str(self.gender))
