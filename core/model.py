@@ -18,12 +18,13 @@ class FaceMetadata(object):
             print>>sys.stderr, "Unable to use:", path, e
 
     def __repr__(self):
-        return "Face [%s] (%d, %s)"%(self.path, self.age, str(self.gender))
+        return "Face [%s] (%02d, %s)"%(self.path, self.age, str(self.gender))
 
 class FacialFeatures(object):
     def __init__(self, **kwargs):
         self.ratios = kwargs.pop('ratios', None)
         self.feature_points = kwargs.pop('feature_points', None)
+        self.face_boundary = kwargs.pop('face_boundary', None)
         self.others = kwargs
 
     
