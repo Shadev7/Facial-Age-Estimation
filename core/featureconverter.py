@@ -5,8 +5,7 @@ import json
 
 from skimage import io
 
-from core.FaceLandmark import FaceLandmarkDetector
-from core.FaceBoundary import FaceBoundaryDetector
+from core.feature import FaceLandmarkDetector
 import config
 
 class GenericFeatureConverter(object):
@@ -16,54 +15,69 @@ class GenericFeatureConverter(object):
         return None
 
 class CacheMixin(object):
-    def with_cache(self, fn, path, args):
-        if os.path.isfile(path + ".cached2"):
-            with open(path + ".cached2") as f:
-                return json.load(f)
-        result = fn(*args)
-        with open(path + ".cached2", "w") as f:
-            json.dump(result, f)
-        return result
+    def with_cache(self, key, fn, path, args):
+        json_obj = {}
+        if os.path.isfile(path + ".cached"):
+            with open(path + ".cached") as f:
+                json_obj = json.load(f)
 
+        if key in json_obj:
+            return json_obj[key]
+        
+        json_obj[key] = fn(*args)
+
+        with open(path + ".cached", "w") as f:
+            json.dump(json_obj, f)
+        return json_obj[key]
 
 class FaceLandmarkFeatureConverter(GenericFeatureConverter, CacheMixin):
     fl = FaceLandmarkDetector(config.facelandmarkdetector_path)
+    n_features = 7
 
-    params = ("facial_ind mandibular_ind intercanthal_ind orbital_width_ind " + 
-              #"eye_fissure_ind"
-              "nasal_ind vermillion_height_ind " +
-              "mouth_face_width_ind").split()
-    n_features = len(params)
     def convert_data(self, meta):
+        def get_ratios(fl, path):
+            params = ("facial_ind mandibular_ind intercanthal_ind " +
+                            "orbital_width_ind nasal_ind vermillion_height_ind " +
+                            "mouth_face_width_ind").split()
+            ratios = next(fl.detect(io.imread(path))).ratios
+            return [ratios[x] for x in params]
         try:
             facial_feature = self.with_cache(
-                    lambda x: list(self.fl.detect(io.imread(x)))[0].ratios,
+                    "FaceLandmarkFeatureConverter",
+                    lambda x: get_ratios(self.fl, x),
                     meta.path,
                     [meta.path])
-            res = ([facial_feature[x] for x in self.params], meta.age)
-            print "Converted:", meta.path,
-            print "%d features => %s"%(len(res[0]), str(meta.age))
+            res = (facial_feature, meta.age)
             return res
         except Exception, e:
-            print e
-            print>>sys.stderr, "Unable to use: " + meta.path
+            print>>sys.stderr, "Unable to use:", meta.path
             return None
 
 class FaceBoundaryFeatureConverter(GenericFeatureConverter, CacheMixin):
-    fl = FaceBoundaryDetector(config.facelandmarkdetector_path)
+    fl = FaceLandmarkDetector(config.facelandmarkdetector_path)
     n_features = 14
 
     def convert_data(self, meta):
         try:
-            facial_feature = self.with_cache(
-                    lambda x: self.fl.detect(io.imread(meta.path)),
+            face_boundary = self.with_cache(
+                    "FaceBoundaryFeatureConverter",
+                    lambda x: list(self.fl.detect(io.imread(x)))[0].face_boundary,
                     meta.path,
                     [meta.path])
-            res = (self.fl.detect(io.imread(meta.path)), meta.age)
-            print "Converted:", meta.path,
-            print "%d features => %s"%(len(res[0]), str(meta.age))
+            res = (face_boundary, meta.age)
             return res
         except Exception, e:
             print e
             print>>sys.stderr, "Unable to use: " + meta.path
             return None
+
+class FaceLandmarkBoundaryFeatureConverter(FaceLandmarkFeatureConverter, FaceBoundaryFeatureConverter):
+    n_features = FaceLandmarkFeatureConverter.n_features + FaceBoundaryFeatureConverter.n_features
+    
+    def convert_data(self, meta):
+        res1 = FaceLandmarkFeatureConverter.convert_data(self, meta)
+        res2 = FaceBoundaryFeatureConverter.convert_data(self, meta)
+        if res1 is None or res2 is None:
+            return None
+        return (res1[0] + res2[0], res1[1])
+
