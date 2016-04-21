@@ -6,6 +6,7 @@ import json
 from skimage import io
 
 from core.FaceLandmark import FaceLandmarkDetector
+from core.FaceBoundary import FaceBoundaryDetector
 import config
 
 class GenericFeatureConverter(object):
@@ -16,11 +17,11 @@ class GenericFeatureConverter(object):
 
 class CacheMixin(object):
     def with_cache(self, fn, path, args):
-        if os.path.isfile(path + ".cached"):
-            with open(path + ".cached") as f:
+        if os.path.isfile(path + ".cached2"):
+            with open(path + ".cached2") as f:
                 return json.load(f)
         result = fn(*args)
-        with open(path + ".cached", "w") as f:
+        with open(path + ".cached2", "w") as f:
             json.dump(result, f)
         return result
 
@@ -48,3 +49,21 @@ class FaceLandmarkFeatureConverter(GenericFeatureConverter, CacheMixin):
             print>>sys.stderr, "Unable to use: " + meta.path
             return None
 
+class FaceBoundaryFeatureConverter(GenericFeatureConverter, CacheMixin):
+    fl = FaceBoundaryDetector(config.facelandmarkdetector_path)
+    n_features = 14
+
+    def convert_data(self, meta):
+        try:
+            facial_feature = self.with_cache(
+                    lambda x: self.fl.detect(io.imread(meta.path)),
+                    meta.path,
+                    [meta.path])
+            res = (self.fl.detect(io.imread(meta.path)), meta.age)
+            print "Converted:", meta.path,
+            print "%d features => %s"%(len(res[0]), str(meta.age))
+            return res
+        except Exception, e:
+            print e
+            print>>sys.stderr, "Unable to use: " + meta.path
+            return None
