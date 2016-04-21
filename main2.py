@@ -11,7 +11,7 @@ sys.path.insert(0, "python-neural-network/backprop")
 
 from core.inputreader import MugshotExtractor, DataTangExtractor
 from core.classifier import ScikitNeuralNetClassifier, ScikitSvmClassifier
-from core.featureconverter import FaceLandmarkFeatureConverter, FaceBoundaryFeatureConverter
+from core.featureconverter import FaceLandmarkFeatureConverter, FaceBoundaryFeatureConverter, FaceLandmarkBoundaryFeatureConverter
 from utils import max_index
 
 
@@ -38,14 +38,11 @@ def convert_wrapper(datalist, converter, bucket=None):
         res = converter.convert_data(meta)
         if res is not None:
             result.append(res if not bucket else (res[0], bucket(res[1])))
+            print "Processed:", meta, "with %d features"%len(result[-1][0])
     return result
 
-def train_test1(train, test):
-    converter = FaceLandmarkFeatureConverter()
-    
-    age_bucket = AgeBucket(15, 100)
+def train_test(train, test, converter, age_bucket):
     nn = ScikitNeuralNetClassifier([converter.n_features, 50, len(age_bucket)])
-    #nn = ScikitSvmClassifier()
 
     train_data = convert_wrapper(train.list_data(), converter, bucket=age_bucket)
     nn.train(train_data)
@@ -67,35 +64,6 @@ def train_test1(train, test):
     for correct, predicted in zip([d[1] for d in test_data], res):
         #print correct, predicted
         pass
-
-def train_test2(train, test):
-    converter = FaceBoundaryFeatureConverter()
-    
-    age_bucket = AgeBucket(5, 10, 20, 50, 100)
-    nn = ScikitNeuralNetClassifier([converter.n_features, 50, len(age_bucket)])
-    #nn = ScikitSvmClassifier()
-
-    train_data = convert_wrapper(train.list_data(), converter, bucket=age_bucket)
-    nn.train(train_data)
-
-    test_data = convert_wrapper(test.list_data(), converter, bucket=age_bucket)
-    res = nn.test(test_data)
-
-    confusion_matrix = [[0]*len(age_bucket) for _ in range(len(age_bucket))]
-    for correct, predicted in zip([d[1] for d in test_data], res):
-        confusion_matrix[correct][predicted] += 1
-
-    print "Confusion Matrix:"
-    print "\n".join(" ".join("%4d"%x for x in row) for row in confusion_matrix)
-
-    correct = sum(confusion_matrix[i][i] for i in range(len(confusion_matrix)))
-    total = len(test_data)
-    print "Overall Accuracy:", correct / float(total), 
-    print "(%d out of %d)"%(correct, total)
-    for correct, predicted in zip([d[1] for d in test_data], res):
-        #print correct, predicted
-        pass
-
 
 def main():
     train = DataTangExtractor("data/datatang/train")
@@ -103,8 +71,7 @@ def main():
     #train = MugshotExtractor("data/Mugshots/train")
     #test = MugshotExtractor("data/Mugshots/test")
 
-    # train_test1(train, test)
-    train_test2(train, test)
+    train_test(train, test, FaceLandmarkFeatureConverter(), AgeBucket(12, 23, 100))
     
 
 
