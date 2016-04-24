@@ -5,6 +5,7 @@ from sklearn import svm
 
 import config
 from utils import max_index
+from core.featureconverter import GenericFeatureConverter
 
 class GenericClassifier(object):
     def __init__(self, converter):
@@ -61,10 +62,12 @@ class ScikitNeuralNetClassifier(ScikitClassifier):
                 learning_rate_init=config.neuralnet_learningrate,
                 verbose=config.verbose)
 
-
 class CombinedClassifier(GenericClassifier):
     def __init__(self, *tuples):
         super(CombinedClassifier, self).__init__(None)
+        for arg in tuples[0][1]:
+            if isinstance(arg, GenericFeatureConverter):
+                self.converter = arg
         self.classifiers = [cls(*args) for cls, args in tuples]
     
     def train(self, data):
@@ -74,8 +77,18 @@ class CombinedClassifier(GenericClassifier):
     
     def test(self, data):
         data = list(data)
-        res = [c.test(data) for c in self.classifiers]
-        import pdb; pdb.set_trace()
+        res = []
+        y = []
+        for c in self.classifiers:
+            predicted, probs, actual = c.test(data)
+            res.append(probs)
+
+        probs = [sum(map(list,x),[]) for x in zip(*res)]
+        max_prob = [max(x) for x in probs]
+        max_prob_index = [max_index(x) % self.classifiers[0].converter.n_output
+                for x in probs]
+
+        return max_prob_index, max_prob, actual
 
 class ScikitSvmClassifier(ScikitClassifier):
     def __init__(self):
