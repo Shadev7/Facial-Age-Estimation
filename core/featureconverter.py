@@ -96,4 +96,3 @@ class FaceLandmarkBoundaryFeatureConverter(FaceLandmarkFeatureConverter, FaceBou
         if res1 is None or res2 is None:
             return None
         return (res1[0] + res2[0], res1[1])
-

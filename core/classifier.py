@@ -2,6 +2,9 @@ import pickle
 import numpy as np
 from sklearn.neural_network import MLPClassifier
 from sklearn import svm
+from sklearn.naive_bayes import *
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.lda import LDA
 
 import config
 from utils import max_index
@@ -99,3 +102,26 @@ class ScikitSvmClassifier(ScikitClassifier):
     def get_x(self, d):
         return [int(x*10)/10.0 for x in d[0]]
 
+class ScikitNaiveBayesClassifier(ScikitClassifier):
+    def __init__(self, converter):
+        super(ScikitNaiveBayesClassifier, self).__init__(converter)
+        # self.classifier = GaussianNB()
+        self.classifier = MultinomialNB()
+        # self.classifier = BernoulliNB()
+
+class NearestNeighborsClassifier(ScikitClassifier):
+    def __init__(self, converter):
+        super(NearestNeighborsClassifier, self).__init__(converter)
+        self.classifier = KNeighborsClassifier(
+            n_neighbors = 13,
+            algorithm='auto')
+
+class LDAClassifier(ScikitClassifier):
+    def __init__(self, converter):
+        super(LDAClassifier, self).__init__(converter)
+        self.classifier = LDA(n_components=None,
+                              priors=None,
+                              shrinkage=None,
+                              solver='eigen',
+                              store_covariance=False,
+                              tol=0.0001)

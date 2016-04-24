@@ -8,12 +8,11 @@ import cv2
 from skimage import io
 
 from core.inputreader import MugshotExtractor, DataTangExtractor
-from core.classifier import ScikitNeuralNetClassifier, ScikitSvmClassifier
-from core.classifier import CombinedClassifier
-from core.featureconverter import FaceLandmarkFeatureConverter, \
-            FaceBoundaryFeatureConverter, FaceLandmarkBoundaryFeatureConverter
+from core.classifier import *
+from core.featureconverter import *
 from core.model import AgeBucket
 import config
+
 
 def train_test(train, test, classifier):
     classifier.train(train.list_data())
@@ -38,7 +37,7 @@ def main():
     train = DataTangExtractor("data/datatang/train")
     test = DataTangExtractor("data/datatang/test")
 
-    repeat = 5
+    repeat = 1
     total, totalAccuracy = 0, 0
     
     for _ in range(repeat):
@@ -49,10 +48,12 @@ def main():
             (ScikitNeuralNetClassifier, [fl, [fl.n_features, 15, fl.n_output]]),
             (ScikitNeuralNetClassifier, [fb, [fb.n_features, 15, fb.n_output]]),
         ]
-        #converter = FaceBoundaryFeatureConverter(ab)
-        #classifier = ScikitNeuralNetClassifier(converter, 
-        #            [converter.n_features, 15, converter.n_output])
-        classifier = CombinedClassifier(*combined_params)
+        # classifier = ScikitNeuralNetClassifier(converter, [converter.n_features, 15, converter.n_output])
+        # classifier = CombinedClassifier(*combined_params)
+        # classifier = NearestNeighborsClassifier(fl)
+        # classifier = ScikitNaiveBayesClassifier(fl)
+        classifier = LDAClassifier(fl)
+
         print "Trial #", _ + 1
         correct, len_td, accuracy = train_test(train, test, classifier)
         total += correct
@@ -63,4 +64,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
