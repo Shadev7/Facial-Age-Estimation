@@ -28,7 +28,7 @@ def train_test(train, test, classifier):
     print "\n".join(" ".join("%4d"%x for x in row) for row in confusion_matrix)
 
     correct = sum(confusion_matrix[i][i] for i in range(len(confusion_matrix)))
-    total = len(list(test.list_data()))
+    total = len(res[0])
     print "Overall Accuracy:", correct / float(total), 
     print "(%d out of %d)"%(correct, total)
     return correct, total, correct/float(total)
