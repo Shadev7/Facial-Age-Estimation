@@ -7,73 +7,59 @@ import dlib
 import cv2
 from skimage import io
 
-sys.path.insert(0, "python-neural-network/backprop")
-
 from core.inputreader import MugshotExtractor, DataTangExtractor
 from core.classifier import ScikitNeuralNetClassifier, ScikitSvmClassifier
-from core.featureconverter import FaceLandmarkFeatureConverter, FaceBoundaryFeatureConverter, FaceLandmarkBoundaryFeatureConverter
-from utils import max_index
+from core.classifier import CombinedClassifier
+from core.featureconverter import FaceLandmarkFeatureConverter, \
+            FaceBoundaryFeatureConverter, FaceLandmarkBoundaryFeatureConverter
+from core.model import AgeBucket
+import config
 
+def train_test(train, test, classifier):
+    classifier.train(train.list_data())
+    res = classifier.test(test.list_data())
 
-class AgeBucket(object):
-    def __init__(self, *max_ages):
-        res = [0] + sum(map(list, zip(max_ages, [x+1 for x in max_ages])), [])[:-1]
-        self.buckets = zip(res[::2], res[1::2])
-        self.age_bucket = lambda y: max_index([int(x[0]<=y<=x[1]) 
-            for x in self.buckets])
+    confusion_matrix = [[0]*classifier.converter.n_output 
+            for _ in range(classifier.converter.n_output)]
 
-    def __call__(self, age):
-        return self.age_bucket(age)
-
-    def __len__(self):
-        return len(self.buckets)
-
-    def __repr__(self):
-        return repr(self.buckets)
-        
-
-def convert_wrapper(datalist, converter, bucket=None):
-    result = []
-    for meta in datalist:
-        res = converter.convert_data(meta)
-        if res is not None:
-            result.append(res if not bucket else (res[0], bucket(res[1])))
-            print "Processed:", meta, "with %d features"%len(result[-1][0])
-    return result
-
-def train_test(train, test, converter, age_bucket):
-    nn = ScikitNeuralNetClassifier([converter.n_features, 50, len(age_bucket)])
-
-    train_data = convert_wrapper(train.list_data(), converter, bucket=age_bucket)
-    nn.train(train_data)
-
-    test_data = convert_wrapper(test.list_data(), converter, bucket=age_bucket)
-    res = nn.test(test_data)
-
-    confusion_matrix = [[0]*len(age_bucket) for _ in range(len(age_bucket))]
-    for correct, predicted in zip([d[1] for d in test_data], res):
+    for predicted, _, correct in zip(*res):
         confusion_matrix[correct][predicted] += 1
 
     print "Confusion Matrix:"
     print "\n".join(" ".join("%4d"%x for x in row) for row in confusion_matrix)
 
     correct = sum(confusion_matrix[i][i] for i in range(len(confusion_matrix)))
-    total = len(test_data)
+    total = len(list(test.list_data()))
     print "Overall Accuracy:", correct / float(total), 
     print "(%d out of %d)"%(correct, total)
-    for correct, predicted in zip([d[1] for d in test_data], res):
-        #print correct, predicted
-        pass
+    return correct, total, correct/float(total)
 
 def main():
     train = DataTangExtractor("data/datatang/train")
     test = DataTangExtractor("data/datatang/test")
-    #train = MugshotExtractor("data/Mugshots/train")
-    #test = MugshotExtractor("data/Mugshots/test")
 
-    train_test(train, test, FaceLandmarkFeatureConverter(), AgeBucket(12, 23, 100))
+    repeat = 5
+    total, totalAccuracy = 0, 0
     
-
+    for _ in range(repeat):
+        ab = AgeBucket(7, 15, 22, 100)
+        fl = FaceLandmarkFeatureConverter(ab)
+        fb = FaceBoundaryFeatureConverter(ab)
+        combined_params = [
+            (ScikitNeuralNetClassifier, [fl, [fl.n_features, 15, fl.n_output]]),
+            (ScikitNeuralNetClassifier, [fb, [fb.n_features, 15, fb.n_output]]),
+        ]
+        #converter = FaceBoundaryFeatureConverter(ab)
+        #classifier = ScikitNeuralNetClassifier(converter, 
+        #            [converter.n_features, 15, converter.n_output])
+        classifier = CombinedClassifier(*combined_params)
+        print "Trial #", _ + 1
+        correct, len_td, accuracy = train_test(train, test, classifier)
+        total += correct
+        totalAccuracy += accuracy
+    print "Average Correct:", total / float(repeat)
+    print "Average Accuracy:", totalAccuracy / float(repeat)
+    print "Better than random:", (totalAccuracy / float(repeat)) * len(ab)
 
 if __name__ == '__main__':
     main()

@@ -11,7 +11,11 @@ import config
 class GenericFeatureConverter(object):
     n_features = 0
 
-    def convert_data(self, obj):
+    def __init__(self, ab):
+        self.age_bucket = ab
+        self.n_output = len(ab)
+
+    def convert_data(self, obj, age_bucket):
         return None
 
 class CacheMixin(object):
@@ -34,6 +38,9 @@ class FaceLandmarkFeatureConverter(GenericFeatureConverter, CacheMixin):
     fl = FaceLandmarkDetector(config.facelandmarkdetector_path)
     n_features = 7
 
+    def __init__(self, ab):
+        GenericFeatureConverter.__init__(self, ab)
+
     def convert_data(self, meta):
         def get_ratios(fl, path):
             params = ("facial_ind mandibular_ind intercanthal_ind " +
@@ -47,15 +54,19 @@ class FaceLandmarkFeatureConverter(GenericFeatureConverter, CacheMixin):
                     lambda x: get_ratios(self.fl, x),
                     meta.path,
                     [meta.path])
-            res = (facial_feature, meta.age)
+            res = (facial_feature, self.age_bucket(meta.age))
             return res
         except Exception, e:
-            print>>sys.stderr, "Unable to use:", meta.path
+            if config.verbose:
+                print>>sys.stderr, "Unable to use:", meta.path
             return None
 
 class FaceBoundaryFeatureConverter(GenericFeatureConverter, CacheMixin):
     fl = FaceLandmarkDetector(config.facelandmarkdetector_path)
     n_features = 14
+
+    def __init__(self, ab):
+        GenericFeatureConverter.__init__(self, ab)
 
     def convert_data(self, meta):
         try:
@@ -64,16 +75,21 @@ class FaceBoundaryFeatureConverter(GenericFeatureConverter, CacheMixin):
                     lambda x: list(self.fl.detect(io.imread(x)))[0].face_boundary,
                     meta.path,
                     [meta.path])
-            res = (face_boundary, meta.age)
+            res = (face_boundary, self.age_bucket(meta.age))
             return res
         except Exception, e:
-            print e
-            print>>sys.stderr, "Unable to use: " + meta.path
+            if config.verbose:
+                print>>sys.stderr, e
+                print>>sys.stderr, "Unable to use: " + meta.path
             return None
 
 class FaceLandmarkBoundaryFeatureConverter(FaceLandmarkFeatureConverter, FaceBoundaryFeatureConverter):
     n_features = FaceLandmarkFeatureConverter.n_features + FaceBoundaryFeatureConverter.n_features
     
+    def __init__(self, ab):
+        FaceLandmarkFeatureConverter.__init__(self, ab)
+        FaceBoundaryFeatureConverter.__init__(self, ab)
+
     def convert_data(self, meta):
         res1 = FaceLandmarkFeatureConverter.convert_data(self, meta)
         res2 = FaceBoundaryFeatureConverter.convert_data(self, meta)

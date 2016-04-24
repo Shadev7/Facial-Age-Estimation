@@ -6,25 +6,52 @@ from sklearn import svm
 import config
 from utils import max_index
 
-class ScikitClassifier(object):
+class GenericClassifier(object):
+    def __init__(self, converter):
+        self.converter = converter
+
     def train(self, data):
+        pass
+
+    def test(self, data):
+        pass
+
+    def get_x(self, data):
+        return data[0]
+
+    def get_y(self, data):
+        return data[1]
+
+    def preprocess(self, data):
+        result = []
+        for meta in data:
+            res = self.converter.convert_data(meta)
+            result.append(res)
+            if res is not None and config.verbose:
+                print "Processed:", meta, "with %d features"%len(result[-1][0])
+        return [d for d in result if d is not None]
+
+class ScikitClassifier(GenericClassifier):
+    def __init__(self, converter):
+        super(ScikitClassifier, self).__init__(converter)
+
+    def train(self, data):
+        data = self.preprocess(data)
         self.classifier.fit(
-                map(self.get_x, (d[0] for d in data)),
-                map(self.get_y, (d[1] for d in data)))
+                map(self.get_x, data),
+                map(self.get_y, data))
         with open(config.neuralnet_save_path, "w") as f:
             pickle.dump(self.classifier, f)
     
-    def get_x(self, x):
-        return x
-
-    def get_y(self, y):
-        return y
-
     def test(self, data):
-        return self.classifier.predict(map(self.get_x, (d[0] for d in data)))
+        data = self.preprocess(data)
+        x = map(self.get_x, data)
+        y = map(self.get_y, data)
+        return self.classifier.predict(x), self.classifier.predict_proba(x), y
 
 class ScikitNeuralNetClassifier(ScikitClassifier):
-    def __init__(self, nodes):
+    def __init__(self, converter, nodes):
+        super(ScikitNeuralNetClassifier, self).__init__(converter)
         self.classifier = MLPClassifier(
                 hidden_layer_sizes=nodes[1:-1],
                 activation='relu',
@@ -32,7 +59,23 @@ class ScikitNeuralNetClassifier(ScikitClassifier):
                 learning_rate='adaptive',
                 max_iter=config.neuralnet_maxiterations,
                 learning_rate_init=config.neuralnet_learningrate,
-                verbose=True)
+                verbose=config.verbose)
+
+
+class CombinedClassifier(GenericClassifier):
+    def __init__(self, *tuples):
+        super(CombinedClassifier, self).__init__(None)
+        self.classifiers = [cls(*args) for cls, args in tuples]
+    
+    def train(self, data):
+        data = list(data)
+        for c in self.classifiers:
+            c.train(data)
+    
+    def test(self, data):
+        data = list(data)
+        res = [c.test(data) for c in self.classifiers]
+        import pdb; pdb.set_trace()
 
 class ScikitSvmClassifier(ScikitClassifier):
     def __init__(self):
@@ -41,5 +84,5 @@ class ScikitSvmClassifier(ScikitClassifier):
                 verbose=True)
     
     def get_x(self, d):
-        return [int(x*10)/10.0 for x in d]
+        return [int(x*10)/10.0 for x in d[0]]
 

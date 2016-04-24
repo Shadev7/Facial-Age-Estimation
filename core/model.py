@@ -1,6 +1,8 @@
 from enum import Enum
 import sys
 
+from utils import max_index
+
 Gender = Enum("Gender", "M F")
 
 class FaceMetadata(object):
@@ -30,4 +32,22 @@ class FacialFeatures(object):
     
     def __repr__(self):
         return "%s: %s"%(self.__class__.__name__, self.ratios)
+
+class AgeBucket(object):
+    def __init__(self, *max_ages):
+        res = [0] + sum(map(list, zip(max_ages, [x+1 for x in max_ages])), [])[:-1]
+        self.buckets = zip(res[::2], res[1::2])
+        self.age_bucket = lambda y: max_index([int(x[0]<=y<=x[1]) 
+            for x in self.buckets])
+
+    def __call__(self, age):
+        return self.age_bucket(age)
+
+    def __len__(self):
+        return len(self.buckets)
+
+    def __repr__(self):
+        return repr(self.buckets)
+        
+
 
