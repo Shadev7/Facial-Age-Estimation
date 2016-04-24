@@ -110,10 +110,10 @@ class ScikitNaiveBayesClassifier(ScikitClassifier):
         # self.classifier = BernoulliNB()
 
 class NearestNeighborsClassifier(ScikitClassifier):
-    def __init__(self, converter):
+    def __init__(self, converter, k):
         super(NearestNeighborsClassifier, self).__init__(converter)
         self.classifier = KNeighborsClassifier(
-            n_neighbors = 13,
+            n_neighbors = k,
             algorithm='auto')
 
 class LDAClassifier(ScikitClassifier):

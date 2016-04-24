@@ -11,9 +11,11 @@ class GenericFaceDataExtractor(object):
         self.dirName = dirName
 
     def list_data(self):
+        res = []
         for pattern in self.glob_patterns():
             for path in glob(os.path.join(self.dirName, pattern)):
-                yield self.extract_metadata(path)
+                res.append(self.extract_metadata(path))
+        return res
 
     def extract_metadata(self, path):
         return FaceMetadata(path, 30, Gender.MALE)

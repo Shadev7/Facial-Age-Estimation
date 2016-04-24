@@ -12,6 +12,7 @@ from core.classifier import *
 from core.featureconverter import *
 from core.model import AgeBucket
 import config
+from utils import Tee
 
 
 def train_test(train, test, classifier):
@@ -33,34 +34,62 @@ def train_test(train, test, classifier):
     print "(%d out of %d)"%(correct, total)
     return correct, total, correct/float(total)
 
-def main():
+def run(cls, classifier_param):
     train = DataTangExtractor("data/datatang/train")
     test = DataTangExtractor("data/datatang/test")
 
-    repeat = 1
+    repeat = 5
     total, totalAccuracy = 0, 0
-    
-    for _ in range(repeat):
-        ab = AgeBucket(7, 15, 22, 100)
-        fl = FaceLandmarkFeatureConverter(ab)
-        fb = FaceBoundaryFeatureConverter(ab)
-        combined_params = [
-            (ScikitNeuralNetClassifier, [fl, [fl.n_features, 15, fl.n_output]]),
-            (ScikitNeuralNetClassifier, [fb, [fb.n_features, 15, fb.n_output]]),
-        ]
-        # classifier = ScikitNeuralNetClassifier(converter, [converter.n_features, 15, converter.n_output])
-        # classifier = CombinedClassifier(*combined_params)
-        # classifier = NearestNeighborsClassifier(fl)
-        # classifier = ScikitNaiveBayesClassifier(fl)
-        classifier = LDAClassifier(fl)
+    for i in range(repeat):
+        classifier = cls(*classifier_param)
 
-        print "Trial #", _ + 1
+        print "Trial #", i + 1
+
         correct, len_td, accuracy = train_test(train, test, classifier)
         total += correct
         totalAccuracy += accuracy
-    print "Average Correct:", total / float(repeat)
-    print "Average Accuracy:", totalAccuracy / float(repeat)
-    print "Better than random:", (totalAccuracy / float(repeat)) * len(ab)
+    return (total/float(repeat), totalAccuracy/float(repeat), 
+                totalAccuracy/float(repeat) * classifier.converter.n_output)
 
+def main():
+    stdout = sys.stdout
+    f = open('stdout.txt', 'w')
+    sys.stdout = Tee(sys.stdout, f)
+    classifiers = [
+        (ScikitNeuralNetClassifier, [[0, 10, 0]]),
+        (ScikitNeuralNetClassifier, [[0, 15, 0]]),
+        (ScikitNeuralNetClassifier, [[0, 30, 0]]),
+        (ScikitNeuralNetClassifier, [[0, 50, 0]]),
+        (ScikitNeuralNetClassifier, [[0, 100,0]]),
+        (ScikitNaiveBayesClassifier, []),
+        (NearestNeighborsClassifier, [5]),
+        (NearestNeighborsClassifier, [10]),
+        (NearestNeighborsClassifier, [15]),
+    ]
+    features = [
+        FaceLandmarkFeatureConverter,
+        FaceBoundaryFeatureConverter,
+        FaceLandmarkBoundaryFeatureConverter,
+    ]
+    age_groups = [
+        (12, 23, 100),
+        (7, 15 ,22, 100),
+        (5, 12, 18, 100),
+        (5, 10, 15, 20, 25,  100),
+    ]
+
+    for cls, param in classifiers:
+        for ftr in features:
+            for ag in age_groups:
+                print "Classifier:", cls
+                print "Classifier param:", param
+                print "Feature:", ftr
+                print "Age Group:", ag
+                res = run(cls, [ftr(AgeBucket(*ag))] + param)
+                print "Avg. Correct:", res[0]
+                print "Avg. Accuracy:", res[1]
+                print "BTRG:", res[2]
+                sys.stdout.flush()
+    f.close()
 if __name__ == '__main__':
     main()

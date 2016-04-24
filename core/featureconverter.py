@@ -58,6 +58,7 @@ class FaceLandmarkFeatureConverter(GenericFeatureConverter, CacheMixin):
             return res
         except Exception, e:
             if config.verbose:
+                print>>sys.stderr, e
                 print>>sys.stderr, "Unable to use:", meta.path
             return None
 
