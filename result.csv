@@ -1,0 +1,109 @@
+Classifier	Classifier param 	Feature 	Age Group 	Avg. Correct 	Avg. Accuracy 	BTRG
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(12, 23, 100)	99.2	0.594011976048	1.78203592814
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(7, 15, 22, 100)	76.8	0.459880239521	1.83952095808
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 12, 18, 100)	49.0	0.293413173653	1.17365269461
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 10, 15, 20, 25, 100)	53.8	0.322155688623	1.93293413174
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(12, 23, 100)	113.8	0.681437125749	2.04431137725
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(7, 15, 22, 100)	58.6	0.350898203593	1.40359281437
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 12, 18, 100)	27.6	0.165269461078	0.661077844311
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	14.8	0.088622754491	0.531736526946
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(12, 23, 100)	111.4	0.667065868263	2.00119760479
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(7, 15, 22, 100)	63.4	0.379640718563	1.51856287425
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 12, 18, 100)	25.4	0.152095808383	0.608383233533
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 10, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	26.6	0.159281437126	0.955688622754
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(12, 23, 100)	96.4	0.577245508982	1.73173652695
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(7, 15, 22, 100)	62.8	0.376047904192	1.50419161677
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 12, 18, 100)	64.0	0.383233532934	1.53293413174
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 10, 15, 20, 25, 100)	58.4	0.349700598802	2.09820359281
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(12, 23, 100)	110.6	0.662275449102	1.98682634731
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(7, 15, 22, 100)	64.4	0.385628742515	1.54251497006
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 12, 18, 100)	33.8	0.202395209581	0.809580838323
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	26.0	0.155688622754	0.934131736527
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(12, 23, 100)	113.6	0.680239520958	2.04071856287
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(7, 15, 22, 100)	69.8	0.417964071856	1.67185628743
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 12, 18, 100)	29.6	0.177245508982	0.708982035928
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 15, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	33.0	0.197604790419	1.18562874251
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(12, 23, 100)	97.2	0.582035928144	1.74610778443
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(7, 15, 22, 100)	76.0	0.455089820359	1.82035928144
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 12, 18, 100)	63.4	0.379640718563	1.51856287425
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 10, 15, 20, 25, 100)	53.6	0.320958083832	1.92574850299
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(12, 23, 100)	95.6	0.57245508982	1.71736526946
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(7, 15, 22, 100)	55.4	0.331736526946	1.32694610778
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 12, 18, 100)	30.0	0.179640718563	0.718562874251
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	19.6	0.117365269461	0.704191616766
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(12, 23, 100)	106.6	0.638323353293	1.91497005988
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(7, 15, 22, 100)	50.8	0.304191616766	1.21676646707
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 12, 18, 100)	32.6	0.195209580838	0.780838323353
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 30, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	35.8	0.214371257485	1.28622754491
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(12, 23, 100)	93.2	0.558083832335	1.67425149701
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(7, 15, 22, 100)	62.6	0.374850299401	1.4994011976
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 12, 18, 100)	55.2	0.330538922156	1.32215568862
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 10, 15, 20, 25, 100)	58.0	0.347305389222	2.08383233533
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(12, 23, 100)	105.2	0.62994011976	1.88982035928
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(7, 15, 22, 100)	60.0	0.359281437126	1.4371257485
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 12, 18, 100)	25.0	0.149700598802	0.59880239521
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	21.6	0.129341317365	0.776047904192
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(12, 23, 100)	90.4	0.541317365269	1.62395209581
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(7, 15, 22, 100)	65.2	0.390419161677	1.56167664671
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 12, 18, 100)	41.4	0.247904191617	0.991616766467
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 50, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	41.4	0.247904191617	1.4874251497
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(12, 23, 100)	100.4	0.60119760479	1.80359281437
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(7, 15, 22, 100)	73.2	0.438323353293	1.75329341317
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 12, 18, 100)	62.0	0.37125748503	1.48502994012
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 10, 15, 20, 25, 100)	56.8	0.340119760479	2.04071856287
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(12, 23, 100)	111.8	0.669461077844	2.00838323353
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(7, 15, 22, 100)	61.0	0.365269461078	1.46107784431
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 12, 18, 100)	25.4	0.152095808383	0.608383233533
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	32.8	0.196407185629	1.17844311377
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(12, 23, 100)	91.6	0.548502994012	1.64550898204
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(7, 15, 22, 100)	51.4	0.307784431138	1.23113772455
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 12, 18, 100)	43.8	0.262275449102	1.04910179641
+<class 'core.classifier.ScikitNeuralNetClassifier'>	[[0, 100, 0]]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	48.8	0.292215568862	1.75329341317
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(12, 23, 100)	114.0	0.682634730539	2.04790419162
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(7, 15, 22, 100)	72.0	0.431137724551	1.7245508982
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 12, 18, 100)	25.0	0.149700598802	0.59880239521
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 10, 15, 20, 25, 100)	14.0	0.0838323353293	0.502994011976
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(12, 23, 100)	114.0	0.682634730539	2.04790419162
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(7, 15, 22, 100)	68.0	0.407185628743	1.62874251497
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 12, 18, 100)	25.0	0.149700598802	0.59880239521
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	15.0	0.0898203592814	0.538922155689
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(12, 23, 100)	114.0	0.682634730539	2.04790419162
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(7, 15, 22, 100)	68.0	0.407185628743	1.62874251497
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 12, 18, 100)	25.0	0.149700598802	0.59880239521
+<class 'core.classifier.ScikitNaiveBayesClassifier'>	[]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	16.0	0.0958083832335	0.574850299401
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(12, 23, 100)	107.0	0.640718562874	1.92215568862
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(7, 15, 22, 100)	74.0	0.443113772455	1.77245508982
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 12, 18, 100)	69.0	0.413173652695	1.65269461078
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 10, 15, 20, 25, 100)	55.0	0.329341317365	1.97604790419
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(12, 23, 100)	108.0	0.646706586826	1.94011976048
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(7, 15, 22, 100)	93.0	0.556886227545	2.22754491018
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 12, 18, 100)	78.0	0.467065868263	1.86826347305
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	58.0	0.347305389222	2.08383233533
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(12, 23, 100)	106.0	0.634730538922	1.90419161677
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(7, 15, 22, 100)	86.0	0.51497005988	2.05988023952
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 12, 18, 100)	87.0	0.520958083832	2.08383233533
+<class 'core.classifier.NearestNeighborsClassifier'>	[5]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	64.0	0.383233532934	2.2994011976
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(12, 23, 100)	98.0	0.586826347305	1.76047904192
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(7, 15, 22, 100)	69.0	0.413173652695	1.65269461078
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 12, 18, 100)	74.0	0.443113772455	1.77245508982
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 10, 15, 20, 25, 100)	49.0	0.293413173653	1.76047904192
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(12, 23, 100)	100.0	0.59880239521	1.79640718563
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(7, 15, 22, 100)	86.0	0.51497005988	2.05988023952
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 12, 18, 100)	73.0	0.437125748503	1.74850299401
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	59.0	0.353293413174	2.11976047904
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(12, 23, 100)	104.0	0.622754491018	1.86826347305
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(7, 15, 22, 100)	89.0	0.532934131737	2.13173652695
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 12, 18, 100)	75.0	0.449101796407	1.79640718563
+<class 'core.classifier.NearestNeighborsClassifier'>	[10]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	71.0	0.425149700599	2.55089820359
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(12, 23, 100)	108.0	0.646706586826	1.94011976048
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(7, 15, 22, 100)	66.0	0.395209580838	1.58083832335
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 12, 18, 100)	76.0	0.455089820359	1.82035928144
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceLandmarkFeatureConverter'>	(5, 10, 15, 20, 25, 100)	55.0	0.329341317365	1.97604790419
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(12, 23, 100)	92.0	0.550898203593	1.65269461078
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(7, 15, 22, 100)	80.0	0.479041916168	1.91616766467
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 12, 18, 100)	67.0	0.40119760479	1.60479041916
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	57.0	0.341317365269	2.04790419162
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(12, 23, 100)	97.0	0.580838323353	1.74251497006
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(7, 15, 22, 100)	79.0	0.473053892216	1.89221556886
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 12, 18, 100)	70.0	0.419161676647	1.67664670659
+<class 'core.classifier.NearestNeighborsClassifier'>	[15]	<class 'core.featureconverter.FaceLandmarkBoundaryFeatureConverter'>	(5, 10, 15, 20, 25, 100)	59.0	0.353293413174	2.11976047904
