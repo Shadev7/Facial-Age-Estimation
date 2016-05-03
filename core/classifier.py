@@ -4,7 +4,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn import svm
 from sklearn.naive_bayes import *
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.lda import LDA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 import config
 from utils import max_index
@@ -119,7 +119,7 @@ class NearestNeighborsClassifier(ScikitClassifier):
 class LDAClassifier(ScikitClassifier):
     def __init__(self, converter):
         super(LDAClassifier, self).__init__(converter)
-        self.classifier = LDA(n_components=None,
+        self.classifier = LinearDiscriminantAnalysis(n_components=None,
                               priors=None,
                               shrinkage=None,
                               solver='eigen',
