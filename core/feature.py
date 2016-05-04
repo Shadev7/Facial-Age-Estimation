@@ -15,31 +15,30 @@ class FaceLandmarkDetector(object):
 
         # remove this later - start
 
-        # input_img = cv2.imread("data/test-images/035A18.JPG")		
-        # height, width, channels = input_img.shape		
-        # aspect_ratio = 1.0 * width / height		
-        # new_width = 400		
-        # new_height = int(new_width / aspect_ratio)		
-        # resized_img = cv2.resize(input_img, (new_width, new_height)) 		
-        # gray = cv2.cvtColor(resized_img, cv2.COLOR_BGR2GRAY)		
-        		
-        # detections = self.detector(resized_img, 1)		
-        # for k,d in enumerate(detections):		
-        #     shape = self.predictor(input_img, d)		
-        #     feature_dict = self.parseShape(shape)        		
-		
-        # names = "jaw left_brow right_brow nose_unnecessary nose left_eye right_eye lips lips_divider".split()
-        # # for name in names:
-        # # 	for point in feature_dict[name]:
-        # # 		cv2.circle(resized_img, point, 2 , (255,0,255), -1)
-        # for i in range(1,16):
-        # 	cv2.circle(resized_img, feature_dict["jaw"][i], 2 , (255,0,255), -1)
-        # # cv2.circle(resized_img, feature_dict["jaw"][0], 4 , (255,0,255), 2)		
-        # # cv2.circle(resized_img, feature_dict["jaw"][1], 4 , (255,0,255), 2)		
-		
-        # cv2.imshow("Detected boundary pixels", resized_img)		
-        # cv2.waitKey(0)		
-        # cv2.destroyAllWindows()		
+        # testing_files_list = ["073A16", "072A19", "072A45", "076A14", "082A20", "080A08", "077A07"]
+        # for img in testing_files_list:
+        #     input_img = cv2.imread("data/datatang/test/" + img + ".JPG")
+        #     # input_img = cv2.imread("data/test-images/" + img + ".JPG")
+        #     height, width, channels = input_img.shape
+        #     aspect_ratio = 1.0 * width / height
+        #     new_width = 400
+        #     new_height = int(new_width / aspect_ratio)
+        #     resized_img = cv2.resize(input_img, (new_width, new_height))
+        #     gray = cv2.cvtColor(resized_img, cv2.COLOR_BGR2GRAY)
+
+        #     detections = self.detector(resized_img, 1)
+        #     for k,d in enumerate(detections):
+        #         shape = self.predictor(input_img, d)
+        #         feature_dict = self.parseShape(shape)
+
+        #     names = "jaw left_brow right_brow nose_unnecessary nose left_eye right_eye lips lips_divider".split()
+        #     for name in names:
+        #         for i in range(0,len(feature_dict[name])):
+        #         	cv2.circle(resized_img, feature_dict[name][i], 2 , (255,0,255), -1)
+
+        #     cv2.imshow("Detected boundary pixels", resized_img)
+        #     cv2.waitKey(0)
+        #     cv2.destroyAllWindows()
         # exit()
         
         # remove this later - end
