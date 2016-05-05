@@ -16,7 +16,7 @@ class GenericFaceDataExtractor(object):
         for pattern in self.glob_patterns():
             for path in glob(os.path.join(self.dirName, pattern)):
                 res.append(self.extract_metadata(path))
-        res = self.subsample(res, percent = 80)
+        res = self.subsample(res, percent = 100)
         return res
 
     def extract_metadata(self, path):
